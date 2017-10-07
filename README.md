@@ -1,2 +1,7 @@
 # Crypto_XOR
-XOR Encoder / Decoder
+
+- Various XOR decoder techniques
+
+## Background
+
+- Problems solve based on CTF.
