@@ -63,8 +63,8 @@ def single_key_xor(hex_string, char_key):
 
     #  Iterate through the length of hex_string, xor each pair with the hex of the char_key
     # converting the result to int ascii then chr and storing that in the variable
-    for i in range(0,len(hex_string)-1,2):
-        decryption += chr(int(hex_xor(hex_string[i]+hex_string[i+1], hex(ord(char_key))),16))
+    for i in range(0,len(hex_string)-1, 2):
+        decryption += chr(int(hex_xor(hex_string[i]+hex_string[i+1], hex(ord(char_key))), 16))
     return decryption
 
 
@@ -74,8 +74,8 @@ def ctf4():
     ct = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
 
     # Run for entire character list / aka printable list
-    for i in string.printable:
-        print("Attempt:"+i+": ", single_key_xor(ct, i))
+    for char in string.printable:
+        print("Attempt:"+char+": ", single_key_xor(ct, char))
 
 
 def points(input_line):
@@ -110,19 +110,19 @@ def ctf5():
         ct = set(line.strip() for line in ct_file)
 
     # Define Variables
-    all_points = {}  # to keep score of all the
+    all_points = {}  # to keep score of all the lines in an empty dictionary
 
     # For each line
     for line in ct:
-        print("Line:",line)
-        for i in string.ascii_letters:
-            print("Attempt:"+i+": ", single_key_xor(line,i))
-
-
-
-
-
-#ctf5()
+        for char in string.printable:
+            # Decrypt the line
+            decryption = single_key_xor(line, char)
+            # Save the points, line, & char used for decryption of each line
+            all_points[decryption] = [points(decryption), line, char]
+    # Sort the lines by points from largest to smallest
+    all_points = sorted(all_points.items(), key=lambda x: x[1][0], reverse=True)
+    # Print top 5 items
+    print(all_points[:5])
 
 
 def ctf6():
@@ -133,45 +133,3 @@ def ctf6():
 
 def ctf7():
     """ DECRYPT BASE64 ENCODED FILE WHICH IS ENCRYPTED WITH AES """
-
-
-
-
-def score_alphatext(txt):
-        scr = filter(lambda x: 'a'<=x<='z' or 'A'<=x<='Z' or x==' ', txt)
-        return float(len(scr)) / len(txt)
-
-def solve_single_key_xor(ba):
-    res = []
-    for i in range(256):
-        characters = [chr(c ^ i) for c in ba]
-        res.append([score_alphatext(characters), ''.join(characters), i])
-    return max(res, key=lambda x: x[0])
-
-
-
-def score(str_bytes):
-    """Sums the character frequency for each character. If the given byte cannot be mapped to a character then it gets a score of -100. Rounded to 2 decimal places."""
-    freq_score = sum([char_frequencies.get(chr(letter).lower(), -100) for letter in str_bytes])
-    return math.ceil(freq_score * 100) / 100
-
-
-def xor_single_char(str_bytes, key):
-    """Performs an XOR between a byte array and an integer"""
-    output = b''
-
-    for char in str_bytes:
-        output += bytes([char ^ key])
-
-    return output
-
-def crack_single_byte_XOR(cipher_text):
-
-    cipher_bytes = bytes.fromhex(cipher_text)
-
-    candidates = list()
-    for key_candidate in range(256):
-        byte_candidate = xor_single_char(cipher_bytes, key_candidate)
-        candidates.append((key_candidate, score(byte_candidate), byte_candidate))
-
-    return max(candidates, key=lambda item: item[1])
