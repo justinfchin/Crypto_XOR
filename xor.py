@@ -105,7 +105,7 @@ def ctf5():
     """ DECRYPT FILE WHICH IS ENCRYPTED WITH SINGLE CHAR XOR """
 
     # Open File
-    with open('ct.txt') as ct_file:
+    with open('ctf5ct.txt') as ct_file:
         # Separate Line by Line
         ct = set(line.strip() for line in ct_file)
 
