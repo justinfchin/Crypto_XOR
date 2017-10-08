@@ -6,6 +6,7 @@ Purpose: Various XOR Functions for Encrypt/Decrypt
 """
 
 import string  # for ascii letters (alphabet)
+import binascii  # for converting strings to hex
 
 """ BUILT-IN FUNCTION UNDERSTANDING
 
@@ -125,10 +126,38 @@ def ctf5():
     print(all_points[:5])
 
 
+def repeating_xor(hex_string, string_key):
+    """ 
+    :param hex_string: a hex string
+    :param string_key: just a char string 
+    
+    :return hex_string^string_key
+    """
+    # Declare Variables
+
+    new_key = ''  # for holding repeated key
+
+    # Repeat key in new_key for as long as hex_string is
+    for i in range(0, round(len(hex_string)/2), 1):
+        new_key += hex(ord(string_key[i % len(string_key)]))[2:]
+
+    # Perform xor on both hex
+    xor_result = hex_xor(hex_string, new_key)
+    decryption = ''
+
+    # Convert the hex to char
+    for j in range(0, len(xor_result)-1, 2):
+        decryption += chr(int(xor_result[j]+xor_result[j+1], 16))
+
+    return decryption
+
+
 def ctf6():
     """ DECRYPT REPEATING XOR """
     # Cipher Text
     ct = '7d2e03292f3370267435262277363b2c2328233c3b2f33'
+    key = 'WUTANG'
+    print(repeating_xor(ct, key))
 
 
 def ctf7():
