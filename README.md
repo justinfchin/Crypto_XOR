@@ -32,13 +32,13 @@
     - Decrypt file with single unknown character and locate plaintext
 - Idea:
     1. open the file
-    2. separate each line and put it in a set datastructure to remove duplicates and add randomness to the order (this helps with searching) 
+    2. separate each line and put it in a set data structure to remove duplicates and add randomness to the order (this helps with searching) 
     3. for each of the line we xor the pair of hex with each char in string.printable, giving us the decrypted text
         - we also derive a points system to add to each decrypted text
             - the reason for this point system is that we want to assign the decrypted text the highest number of points the more likely hood that it contains words from the English dictionary
             - from [wikipedia](https://en.wikipedia.org/wiki/Letter_frequency), we obtain letter frequencies
             - to calculate the points, we sum together the corresponding frequency of the letter according to what we received from wikipedia
-        - we then store the decrypted text as a key in a dictionary with its associated value as a list of points assigned to the decryption, the ciphertext, and the char used to xor the line. 
+        - we then store the decrypted text as a key in a dictionary with its associated value as a list of points assigned to the decryption, the cipher text, and the char used to xor the line. 
     5. we then sort the dictionary by highest points and print the top 5 points
         - one of these top five should have a readable phrase 
 
@@ -80,3 +80,19 @@
 - :return character of each xor hex_string ^ char_key
 
 - Decrypt base64 encoded file which has been encrypted with AES
+
+### points(input_line):
+- Sum the total amount of letters in input with values based on frequency
+
+- :param input_line: string
+
+- :return total based on summing the letter frequency based on the English language
+
+### repeating_xor(hex_string, string_key):
+- XOR hexadecimal string with repeated string_key
+
+- :param hex_string: string hexadecimal
+- :param string_key: string
+
+- :return xor of hex_string with repeated string_key
+
