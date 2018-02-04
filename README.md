@@ -1,10 +1,57 @@
 # Crypto_XOR
+> Various XOR decoder techniques to solve Capture the Flag (CTF) Problems
 
-- Various XOR decoder techniques
+## Problem Breakdowns
+*see code for more details*
 
-## Background
+### ctf1-2
+- trivial, no coding needed
 
-- Problems solved based on CTF.
+### ctf3
+- Problem:
+    - XOR Two Given Strings return output
+    - a = '42696c6c792c20646f6e27'                                
+    - b = '742062652061206865726f' 
+- Idea:
+    1. convert strings hex to int ascii which is base 16
+        - so that we can use the ^ operator
+    2. perform the ^ operation
+    3. convert the result back to hex
+
+### ctf4
+- Problem:
+    - Decrypt given ciphertext (in hex) which is encrypted with single char xor
+    - ct = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
+- Idea: 
+    1. iterate through the length of the ciphertext and xor each pair of hex with a single char 
+        - for each pair, specifically, we convert the hex result to int ascii then chr and concatenate that result with all the others, hopefully, providing us with something readable 
+        - for the single char, we loop through all the characters in string.printable
+
+### ctf5
+- Problem:
+    - Decrypt file with single unknown character and locate plaintext
+- Idea:
+    1. open the file
+    2. separate each line and put it in a set datastructure to remove duplicates and add randomness to the order (this helps with searching) 
+    3. for each of the line we xor the pair of hex with each char in string.printable, giving us the decrypted text
+        - we also derive a points system to add to each decrypted text
+            - the reason for this point system is that we want to assign the decrypted text the highest number of points the more likely hood that it contains words from the English dictionary
+            - from [wikipedia](https://en.wikipedia.org/wiki/Letter_frequency), we obtain letter frequencies
+            - to calculate the points, we sum together the corresponding frequency of the letter according to what we received from wikipedia
+        - we then store the decrypted text as a key in a dictionary with its associated value as a list of points assigned to the decryption, the ciphertext, and the char used to xor the line. 
+    5. we then sort the dictionary by highest points and print the top 5 points
+        - one of these top five should have a readable phrase 
+
+### ctf6
+- Problem:
+    - Decrypt ciphertext with repeating xori
+    - ct = '7d2e03292f3370267435262277363b2c2328233c3b2f33'
+- Idea:
+    1. some digging led the key to be 'WUTANG' 
+    2. create a new key to fit the length of the cipher text
+        - note that there should be a letter per two chars in the cipher text since it is in hexadecimal
+    3. perform the xor operation
+    4. convert the returned result to char
 
 ## Function Breakdown
 
@@ -32,23 +79,4 @@
 
 - :return character of each xor hex_string ^ char_key
 
-## Problem Breakdowns
-*see code for more details*
-
-### ctf1-2
-- trivial, no coding needed
-
-### ctf3
-- XOR Two Given Strings
-
-### ctf4
-- Decrypt given ciphertext (in hex), and xor with single unknown character
-
-### ctf5
-- Decrypt file with single unknown character and locate plaintext
-
-### ctf6
-- Decrypt ciphertext with repeating xor
-
-### ctf7
 - Decrypt base64 encoded file which has been encrypted with AES

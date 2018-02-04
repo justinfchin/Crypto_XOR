@@ -6,7 +6,6 @@ Purpose: Various XOR Functions for Encrypt/Decrypt
 """
 
 import string  # for ascii letters (alphabet)
-import binascii  # for converting strings to hex
 
 """ BUILT-IN FUNCTION UNDERSTANDING
 
@@ -134,8 +133,8 @@ def repeating_xor(hex_string, string_key):
     :return hex_string^string_key
     """
     # Declare Variables
-
     new_key = ''  # for holding repeated key
+    decryption = ''
 
     # Repeat key in new_key for as long as hex_string is
     for i in range(0, round(len(hex_string)/2), 1):
@@ -143,7 +142,6 @@ def repeating_xor(hex_string, string_key):
 
     # Perform xor on both hex
     xor_result = hex_xor(hex_string, new_key)
-    decryption = ''
 
     # Convert the hex to char
     for j in range(0, len(xor_result)-1, 2):
@@ -159,6 +157,5 @@ def ctf6():
     key = 'WUTANG'
     print(repeating_xor(ct, key))
 
+ctf5()
 
-def ctf7():
-    """ DECRYPT BASE64 ENCODED FILE WHICH IS ENCRYPTED WITH AES """
