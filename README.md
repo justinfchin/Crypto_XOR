@@ -1,5 +1,8 @@
 # Crypto_XOR
 > Various XOR decoder techniques to solve Capture the Flag (CTF) Problems
+- For CCNY 59938 Web Security with Codepath
+    - Fall 2017
+    - Instead of "Googling" for decrypters, I built my own. 
 
 # Problem Breakdowns
 *see code for more details*
