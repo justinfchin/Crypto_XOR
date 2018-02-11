@@ -1,7 +1,7 @@
 # Crypto_XOR
 > Various XOR decoder techniques to solve Capture the Flag (CTF) Problems
 
-## Problem Breakdowns
+# Problem Breakdowns
 *see code for more details*
 
 ### ctf1-2
@@ -53,7 +53,7 @@
     3. perform the xor operation
     4. convert the returned result to char
 
-## Function Breakdown
+# Function Breakdown
 
 ### hex_xor(hex_a, hex_b)
 - XOR 2 STRING HEX OF EQUAL LENGTH
